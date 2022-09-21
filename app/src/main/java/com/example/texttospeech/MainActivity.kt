@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         b1.setOnClickListener {
             tts= TextToSpeech(applicationContext,TextToSpeech.OnInitListener {
                 if(it==TextToSpeech.SUCCESS){
-                    tts.setLanguage(Locale.UK)
+                    tts.setLanguage(Locale.US)
                     tts.setSpeechRate(1.0f)
                     tts.speak(e1.text.toString(), TextToSpeech.QUEUE_FLUSH, null,"")
 
