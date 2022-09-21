@@ -3,12 +3,14 @@ package com.example.texttospeech
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     lateinit var tts:TextToSpeech
 
@@ -17,17 +19,41 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         var b1=findViewById<Button>(R.id.speakButton)
+        var b2=findViewById<Button>(R.id.timeBtn)
         var e1=findViewById<EditText>(R.id.inputText)
 
-        b1.setOnClickListener {
-            tts= TextToSpeech(applicationContext,TextToSpeech.OnInitListener {
-                if(it==TextToSpeech.SUCCESS){
-                    tts.setLanguage(Locale.US)
-                    tts.setSpeechRate(1.0f)
-                    tts.speak(e1.text.toString(), TextToSpeech.QUEUE_ADD, null,"")
-
+        tts= TextToSpeech(applicationContext,TextToSpeech.OnInitListener {
+            if (it == TextToSpeech.SUCCESS) {
+                val result = tts.setLanguage(Locale.US)
+                if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "Language Not Supported")
                 }
-            })
+                else
+                {
+                    tts.setSpeechRate(1.0f)
+                    b1.isEnabled = true
+                    b2.isEnabled = true
+                }
+            }
+            else
+            {
+                Log.e("TTS", "Initialization Failed")
+            }
+        })
+        b1.setOnClickListener {
+                speakOut(e1.text.toString());
+        }
+
+        b2.setOnClickListener {
+            val sdf = SimpleDateFormat("hh.mm a")
+            val currentTime = sdf.format(Date())
+            speakOut("It's now "+currentTime)
         }
     }
+
+    fun speakOut(text:String){
+        tts.speak(text, TextToSpeech.QUEUE_ADD, null,"")
+    }
 }
+
