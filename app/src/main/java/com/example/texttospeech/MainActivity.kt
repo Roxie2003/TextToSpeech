@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                 if(it==TextToSpeech.SUCCESS){
                     tts.setLanguage(Locale.US)
                     tts.setSpeechRate(1.0f)
-                    tts.speak(e1.text.toString(), TextToSpeech.QUEUE_FLUSH, null,"")
+                    tts.speak(e1.text.toString(), TextToSpeech.QUEUE_ADD, null,"")
 
                 }
             })
