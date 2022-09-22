@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
 
         var b1=findViewById<Button>(R.id.speakButton)
-        var b2=findViewById<Button>(R.id.timeBtn)
         var e1=findViewById<EditText>(R.id.inputText)
 
         tts= TextToSpeech(applicationContext,TextToSpeech.OnInitListener {
@@ -33,7 +32,6 @@ class MainActivity : AppCompatActivity(){
                 {
                     tts.setSpeechRate(1.0f)
                     b1.isEnabled = true
-                    b2.isEnabled = true
                 }
             }
             else
@@ -45,15 +43,10 @@ class MainActivity : AppCompatActivity(){
                 speakOut(e1.text.toString());
         }
 
-        b2.setOnClickListener {
-            val sdf = SimpleDateFormat("hh.mm a")
-            val currentTime = sdf.format(Date())
-            speakOut("It's now "+currentTime)
-        }
     }
 
     fun speakOut(text:String){
-        tts.speak(text, TextToSpeech.QUEUE_ADD, null,"")
+        tts.speak(text, TextToSpeech.QUEUE_ADD, null,null)
     }
 }
 
